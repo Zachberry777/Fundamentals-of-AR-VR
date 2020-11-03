@@ -1,82 +1,29 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style type="text/css">
-        body {
-            margin: 0;
-            background-color: #000;
-        }
-        canvas {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <script type="module">
-        // Import three
-        import * as THREE from 'https://unpkg.com/three/build/three.module.js';
-        // Import the default VRButton
-        import { VRButton } from 'https://unpkg.com/three/examples/jsm/webxr/VRButton.js';
+<html>
+  <head>
 
-        // Make a new scene
-        let scene = new THREE.Scene();
-        // Set background color of the scene to gray
-        scene.background = new THREE.Color(0x505050);
-
-        // Make a camera. note that far is set to 100, which is better for realworld sized environments
-        let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 1.6, 3);
-        scene.add(camera);
-
-        // Add some lights
-        var light = new THREE.DirectionalLight(0xffffff,0.5);
-        light.position.set(1, 1, 1).normalize();
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0xffffff,0.5))
-
-        // Make a red cube
-        let cube = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(1,1,1),
-            new THREE.MeshLambertMaterial({color:'red'})
-        );
-        cube.position.set(0, 1.5, -10);
-        scene.add(cube);
-
-        // Make a renderer that fills the screen
-        let renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        // Turn on VR support
-        renderer.vr.enabled = true;
-        // Set animation loop
-        renderer.setAnimationLoop(render);
-        // Add canvas to the page
-        document.body.appendChild(renderer.domElement);
-
-        // Add a button to enter/exit vr to the page
-        document.body.appendChild(VRButton.createButton(renderer));
-
-        // For AR instead, import ARButton at the top
-        //    import { ARButton } from 'https://unpkg.com/three/examples/jsm/webxr/ARButton.js';
-        // then create the button
-        //  document.body.appendChild(ARButton.createButton(renderer));
-
-        // Handle browser resize
-        window.addEventListener('resize', onWindowResize, false);
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function render(time) {
-            // Rotate the cube
-            cube.rotation.y = time / 1000;
-            // Draw everything
-            renderer.render(scene, camera);
-        }
-    </script>
-</body>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+       <a-box color="green" position="0 0 -7" rotation="0 45 45" scale="2 2 2"></a-box>
+       <a-box color="blue" position="0 4 -7" rotation="0 45 45" scale="4 2 3"></a-box>
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+      <a-entity id="river" geometry="primitive: plane" material="color: blue"
+          position="-10 0 0" sound="src: url(https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav); autoplay: true; loop: true;"></a-entity>
+       <a-circle color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-circle>
+    scale="2 2 2"
+    animation__position="property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true"
+    animation__mouseenter="property: scale; to: 2.3 2.3 2.3; dur: 300; startEvents: mouseenter"
+    animation__mouseleave="property: scale; to: 2 2 2; dur: 300; startEvents: mouseleave"></a-box>
+     <a-entity environment="preset: canyon; dressingAmount: 500"></a-entity>
+      <a-sky src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg"></a-sky>
+    <a-light type="ambient" color="#445451"></a-light>
+    <a-light type="point" intensity="2" position="2 4 4"></a-light>
+    <a-entity
+    text="value: I reallt dont know; color: #BBB"
+    position="-0.9 0.2 -3"
+    scale="1.5 1.5 1.5"></a-entity>
+    </a-scene>
+  </body>
 </html>
